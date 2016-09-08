@@ -4,8 +4,9 @@ Created on Fri Aug 05 10:17:21 2016
 
 @author: Gerardo Alfredo Alarcon Rivas
 """
+import sys
 import timeit
-import xlwt
+
 def remove_duplicates(li):
     my_set = set()
     res = []
@@ -50,8 +51,6 @@ def HWCMParser(XML_FILE,OutPut_dir):#
     start_time = timeit.default_timer()
     print "Start Time:",start_time
     clean(XML_FILE)# clean the file of one wrong character in the xml file
-    wbOutput = xlwt.Workbook()
-    wb2_name = OutPut_dir
     
     import xml.etree.ElementTree as ET
     tree = ET.parse(XML_FILE)
@@ -104,22 +103,13 @@ def HWCMParser(XML_FILE,OutPut_dir):#
              #   print temp.get('name'),child1.text            
    
    
-print(HWCMParser('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\XML Files\HuaweiCM\CMExport_DIFRNC191_10.216.30.1_2016072505.xml','C:\Users\VervebaMX2\Documents\Projects\Python Scripts\CM&PM Parsers\CM-and-PM-ericsson-and-huawei-parsers\Huawei\Test\log.txt'))   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/CMExport_DURRNC131_10.208.14.35_2016072505.xml','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/test/log.txt')
+
+#first_arg = sys.argv[1]
+#second_arg = sys.argv[2]
+
+#if __name__ == "__main__":
+#     HWCMParser(first_arg,second_arg)   
    
    
    
