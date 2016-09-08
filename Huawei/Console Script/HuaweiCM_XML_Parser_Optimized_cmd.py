@@ -6,6 +6,7 @@ Created on Fri Aug 05 10:17:21 2016
 """
 import sys
 import timeit
+
 def remove_duplicates(li):
     my_set = set()
     res = []
@@ -38,7 +39,7 @@ def logger(cadena,file_):
 '''
 This is the main function, this is doing all the parse tasks.
     -XML_FILE is the name of the xml file to be parsed including the directory.
-    -OutPut_dir is the name of the file and directory where the parsed file will be saved.
+    -OutPut_dir is the name of thedirectory where the parsed file will save the tables.
 '''
 
 def HWCMParser(XML_FILE,OutPut_dir):#
@@ -50,8 +51,6 @@ def HWCMParser(XML_FILE,OutPut_dir):#
     start_time = timeit.default_timer()
     print "Start Time:",start_time
     clean(XML_FILE)# clean the file of one wrong character in the xml file
-    wbOutput = xlwt.Workbook()
-    wb2_name = OutPut_dir
     
     import xml.etree.ElementTree as ET
     tree = ET.parse(XML_FILE)
@@ -60,12 +59,13 @@ def HWCMParser(XML_FILE,OutPut_dir):#
        # print node.text
         for child1 in node.findall('attr'):
             temp.update({dict(child1.attrib).get('name'):str(child1.text)})
+            RNC_name=temp.get('name')
         for key in temp:
             headers.append(str(key))
             lines.append(str(temp.get(key)))
-        logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
-        logger('\t'.join(headers),OutPut_dir)
-        logger('\t'.join(lines),OutPut_dir)
+        #logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
+        logger('\t'.join(headers),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
+        logger('\t'.join(lines),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
         for child1 in node.findall('MO'):
             MO.append(dict(child1.attrib).get('className'))
         MO = sorted(set(MO))
@@ -86,15 +86,15 @@ def HWCMParser(XML_FILE,OutPut_dir):#
                 file_output.update({str(dict(child1.attrib).get('className')):'\t'.join(headers)}) 
         #print file_output
         for n in MO:
-            logger ('*'+n+'*',OutPut_dir)
-            logger (file_output.get(n),OutPut_dir)
+            #logger ('*'+n+'*',OutPut_dir+"_"+n+'.txt')
+            logger (file_output.get(n),OutPut_dir+RNC_name+'_'+n+'.txt')
             for child1 in node.findall('MO'):
                if dict(child1.attrib).get('className')==n:
                    lines=[]                
                    for child2 in child1:
                         lines.append(str(child2.text))
                    
-                   logger ('\t'.join(lines),OutPut_dir+n+".txt")
+                   logger ('\t'.join(lines),OutPut_dir+RNC_name+'_'+n+'.txt')
         
         
          
@@ -104,27 +104,13 @@ def HWCMParser(XML_FILE,OutPut_dir):#
              #   print temp.get('name'),child1.text            
    
    
-#print(HWCMParser('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\XML Files\HuaweiCM\CMExport_DIFRNC191_10.216.30.1_2016072505.xml','C:\Users\VervebaMX2\Documents\Projects\Python Scripts\CM&PM Parsers\CM-and-PM-ericsson-and-huawei-parsers\Huawei\Test\log.txt'))   
+HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/CMExport_DURRNC131_10.208.14.35_2016072505.xml','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/test/')
 
-first_arg = sys.argv[1]
-second_arg = sys.argv[2]
+#first_arg = sys.argv[1]
+#second_arg = sys.argv[2]
 
-if __name__ == "__main__":
-    HWCMParser(first_arg,second_arg)   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+#if __name__ == "__main__":
+#     HWCMParser(first_arg,second_arg)   
    
    
    

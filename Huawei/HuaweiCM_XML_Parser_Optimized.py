@@ -39,7 +39,7 @@ def logger(cadena,file_):
 '''
 This is the main function, this is doing all the parse tasks.
     -XML_FILE is the name of the xml file to be parsed including the directory.
-    -OutPut_dir is the name of the file and directory where the parsed file will be saved.
+    -OutPut_dir is the name of thedirectory where the parsed file will save the tables.
 '''
 
 def HWCMParser(XML_FILE,OutPut_dir):#
@@ -59,12 +59,13 @@ def HWCMParser(XML_FILE,OutPut_dir):#
        # print node.text
         for child1 in node.findall('attr'):
             temp.update({dict(child1.attrib).get('name'):str(child1.text)})
+            RNC_name=temp.get('name')
         for key in temp:
             headers.append(str(key))
             lines.append(str(temp.get(key)))
-        logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
-        logger('\t'.join(headers),OutPut_dir)
-        logger('\t'.join(lines),OutPut_dir)
+        #logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
+        logger('\t'.join(headers),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
+        logger('\t'.join(lines),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
         for child1 in node.findall('MO'):
             MO.append(dict(child1.attrib).get('className'))
         MO = sorted(set(MO))
@@ -85,15 +86,15 @@ def HWCMParser(XML_FILE,OutPut_dir):#
                 file_output.update({str(dict(child1.attrib).get('className')):'\t'.join(headers)}) 
         #print file_output
         for n in MO:
-            logger ('*'+n+'*',OutPut_dir)
-            logger (file_output.get(n),OutPut_dir)
+            #logger ('*'+n+'*',OutPut_dir+"_"+n+'.txt')
+            logger (file_output.get(n),OutPut_dir+RNC_name+'_'+n+'.txt')
             for child1 in node.findall('MO'):
                if dict(child1.attrib).get('className')==n:
                    lines=[]                
                    for child2 in child1:
                         lines.append(str(child2.text))
                    
-                   logger ('\t'.join(lines),OutPut_dir)
+                   logger ('\t'.join(lines),OutPut_dir+RNC_name+'_'+n+'.txt')
         
         
          
@@ -103,7 +104,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
              #   print temp.get('name'),child1.text            
    
    
-HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/CMExport_DURRNC131_10.208.14.35_2016072505.xml','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/test/log.txt')
+HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/CMExport_DURRNC131_10.208.14.35_2016072505.xml','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/test/')
 
 #first_arg = sys.argv[1]
 #second_arg = sys.argv[2]
