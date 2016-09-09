@@ -6,6 +6,7 @@ Created on Wednesday Aug 18 09:33:24 2016
 """
 
 '''This function saves take a string and save this in a new line of the input file'''
+import sys
 import os.path
 import collections
 def logger(cadena, file_):
@@ -13,10 +14,28 @@ def logger(cadena, file_):
          f.write(cadena+"\n") # python will convert \n to os.linesep
          f.close()
 
+def merge_dicts(*dict_args):
+    '''
+    Given any number of dicts, shallow copy and merge into a new dict,
+    precedence goes to key value pairs in latter dicts.
+    '''
+    result = {}
+    for dictionary in dict_args:
+        result.update(dictionary)
+    return result
+
+
+def get_files(directory,exte):
+ files_name=[]
+ import glob
+ print directory+exte
+ files_name= glob.glob(directory+exte)
+ return files_name
 '''The parser take on xml file and create a tree form this
 the code write and output file in a tabular format with all the elements of the
 initial file. THe code can parse the exported xml files from Ericsson  PM counters por RNC
 from all the levels'''
+
 def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
     
     import xml.etree.ElementTree as ET
@@ -345,10 +364,20 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                 headers=[]
                                 lines=[]
                                
-    print "Done....."                            
+    print "Parse Done....."                            
+def main_process(directory_in,directory_out):
+    files=[]
+    files=list(get_files(directory_in,"*.xml"))
+    for file_ in files:
+        print 'Processing:'+directory_in+file_
+        XML_ParserEricsson_CM_RNC(file_,directory_out)
+        print 'Result in : '+directory_out
+        
+
+#main_process('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/TEst/Test_allXML/','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/TEst/Test_allXML/Results/')
 #XML_ParserEricsson_CM_RNC('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\TEst\X20160826CM_RNC211.xml','C:\\Users\\VervebaMX2\\Documents\\Projects\\XML Parsing\\TEst\\Result\\')
 first_arg = sys.argv[1]
 second_arg = sys.argv[2]
 
 if __name__ == "__main__":
-    XML_ParserEricsson_CM_RNC(first_arg,second_arg)
+    main_process(first_arg,second_arg)
