@@ -58,7 +58,7 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                 # This block fill the information of the NodeB
                 for child3 in child2.findall('{genericNrm.xsd}MeContext'):
                    CellId=str(dict(child3.attrib).get('id'))
-                   '''
+                   
                    for child4 in child3.findall('{genericNrm.xsd}VsDataContainer'):
                         headers.append('dateTime')                        
                         headers.append('Area_Name')
@@ -208,7 +208,7 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                                    lines=[]
                                    headers=[] 
                                    
-                                   '''
+                                   
                                    
                                    
                    for child4 in child3.findall('{genericNrm.xsd}ManagedElement'):
@@ -219,46 +219,58 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                             for child6 in child5.findall('{genericNrm.xsd}VsDataContainer'):
                                  Id3=str(dict(child6.attrib).get('id'))
                                  #print '-------->child6: ',str(child6.tag).replace('{EricssonSpecificAttributes.15.25.xsd}',''),child6.attrib
-                                 headers.append('DateTime')
-                                 lines.append(Date)
-                                 headers.append("AreaName")
-                                 lines.append(Area_name)
-                                 headers.append("EnodeBId")
-                                 lines.append(CellId)
-                                 headers.append('Id2')
-                                 lines.append(Id2)
-                                 headers.append('Id3')
-                                 lines.append(Id3)
+                                
                                  for child7 in child6.findall('{genericNrm.xsd}VsDataContainer'):
-                                   #print child7.tag,child7.attrib 
+                                   Id4=dict(child7.attrib).get('id')
+                                 
+                                   #print "Child7:  ",child7.tag,child7.attrib 
                                    for child8 in child7.findall('{genericNrm.xsd}attributes'):
-                                       #print child8.tag,child8.text
-                                       headers.append(str(child8.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
-                                       lines.append(str(child8.text))
-                                       print str(child8.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child8.text
-                                       if str(child8.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}','')=='vsDataType':
-                                               Table_name=str(child8.text).replace('{genericNrm.xsd}','')
-                                               print Table_name
+                                       print "child8: ",child8.tag,child8.text
                                        for child9 in child8:
-                                           #print str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child9.text
-                                           
-                                           #headers.append(str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
-                                           #lines.append(str(child9.text))
-                                           #print '------------>child7: ',child7.text
-                                          
-                                           if len(child9)>0:
-                                                     temp2={}
-                                                     for child10 in child9:
-                                                         temp2.update({(str(child10.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','')).replace('{genericNrm.xsd}',''):str(child10.text)})
-                                                     headers.append(str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}',''))
-                                                     lines.append(str(','.join(" %s=%r " % (key,val) for (key,val) in temp2.iteritems()))) 
-                                           else:
-                                                     headers.append(str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
-                                                     lines.append(str(child9.text))
-                                            # print '--------------->child9: ',str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child9.text
-                                       #print "Table_name:",Table_name
+                                           headers.append(str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
+                                           lines.append(str(child9.text))
+                                           print "child9: ",child9.tag,child9.text
+                                           if str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}','')=='vsDataType':
+                                                       Table_name=str(child9.text).replace('{genericNrm.xsd}','')
+                                                       print Table_name
+                                           for child10 in child9:
+                                               print "child10: ",child10.tag.replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child10.text
+                                               #headers.append(str(child10.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
+                                               #lines.append(str(child10.text))
+                                               
+                                               if len(child10)>0:
+                                                         temp2={}
+                                                         for child11 in child10:
+                                                             temp2.update({(str(child11.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','')).replace('{genericNrm.xsd}',''):str(child11.text)})
+                                                         headers.append(str(child10.tag).replace('{EricssonSpecificAttributes.15.25.xsd}',''))
+                                                         lines.append(str(','.join(" %s=%r " % (key,val) for (key,val) in temp2.iteritems()))) 
+                                               else:
+                                                         headers.append(str(child10.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''))
+                                                         lines.append(str(child10.text))
+                                               print '--------------->child9: ',str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child9.text
+                                           #print "Table_name:",Table_name
+                                   
+                                   
+                                   headers.insert(0,'Id4')
+                                   lines.insert(0,Id4)
+                                   headers.insert(0,'Id3')
+                                   lines.insert(0,Id3)
+                                   headers.insert(0,'Id2')
+                                   lines.insert(0,Id2)
+                                   headers.insert(0,"EnodeBId")
+                                   lines.insert(0,CellId)
+                                   headers.insert(0,"AreaName")
+                                   lines.insert(0,Area_name)
+                                   headers.insert(0,'DateTime')
+                                   lines.insert(0,Date)
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   
                                    if os.path.exists(OutPut_dir+Area_name+'_'+Table_name+'.txt')!=True:
-                                          logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                                              logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
                                    logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
                                    lines=[]
                                    headers=[] 
