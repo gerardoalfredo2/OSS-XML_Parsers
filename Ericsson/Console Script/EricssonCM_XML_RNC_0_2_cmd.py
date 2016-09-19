@@ -52,9 +52,13 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
     info=collections.OrderedDict()
     info={'id':''}
     RNC_name=''
+    Date=''
     
     
-    
+    for node in root.findall('{configData.xsd}fileFooter'):
+        #print 'root: ',node
+        Date=dict(node.attrib).get('dateTime')
+            
     '''This BLock ontain the RNC Info only'''
     #print '<<<<Writing RNC Info>>>>'
     for node in root.findall('{configData.xsd}configData'):
@@ -83,9 +87,13 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                     
                                 
                             headers.insert(0,'RNC_Name')
-                            lines.insert(0,RNC_name)                                
-                            logger('\t'.join(headers),OutPut_dir+RNC_name+'_RNC_Info.txt')
-                            logger('\t'.join(lines),OutPut_dir+RNC_name+'_RNC_Info.txt')
+                            lines.insert(0,RNC_name)    
+                            headers.insert(0,'Date')
+                            lines.insert(0,Date)   
+                            if os.path.exists(OutPut_dir+'RNC_Info.txt')==False:
+                            
+                                logger('\t'.join(headers),OutPut_dir+'RNC_Info.txt')
+                            logger('\t'.join(lines),OutPut_dir+'RNC_Info.txt')
 
                             #logger('\t'.join(list((temp.keys()))),OutPut_dir+RNC_name+'_RNC_Info.txt')
                             #logger('\t'.join(list((temp.values()))),OutPut_dir+RNC_name+'_RNC_Info.txt')
@@ -105,6 +113,7 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                             #print "child5: ",child5.tag,"\n"
                             
                             for child6 in child5.findall('{utranNrm.xsd}UtranCell'):
+                                cell_Id=str(dict(child6.attrib).get('id'))
                                 info['id']=str(dict(child6.attrib).get('id'))
                                 #print child6.tag,child6.attrib
                                # print '\r '+info.get('id')
@@ -119,9 +128,10 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                         temp.update({str(child8.tag).replace('{utranNrm.xsd}',''):str(child8.text)})
                                         headers.append(str(child8.tag).replace('{utranNrm.xsd}',''))
                                         lines.append(str(child8.text))
-                                    if os.path.exists(OutPut_dir+RNC_name+"_Utran_Cells_"+".txt")==False:
-                                        logger('\t'.join(info.keys()+headers),OutPut_dir+RNC_name+"_Utran_Cells_"+".txt")
-                                    logger('\t'.join(info.values()+lines),OutPut_dir+RNC_name+"_Utran_Cells_"+".txt")
+                                      
+                                    if os.path.exists(OutPut_dir+"Utran_Cells_"+".txt")==False:
+                                        logger("RNC_name\tDate"+'\t'.join(info.keys()+headers),OutPut_dir+"Utran_Cells_"+".txt")
+                                    logger(RNC_name+'\t'+Date+'\t'+'\t'.join(info.values()+lines),OutPut_dir+"Utran_Cells_"+".txt")
                                     
                                     #logger('\t'.join(temp.keys()),OutPut_dir+RNC_name+"_Utran_Cells_"+".txt")
                                     #logger('\t'.join(temp.values()),OutPut_dir+RNC_name+"_Utran_Cells_"+".txt")
@@ -164,9 +174,9 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                     temp=merge_dicts(temp1,temp)
                                     #print temp
                                     if str(temp.get('vsDataType'))!='None':
-                                        if os.path.exists(OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
-                                            logger(str('\t'.join(list(temp1.keys()+headers))).replace('\n',''), OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
-                                        logger(str('\t'.join(list(temp1.values()+lines))).replace('\n',''), OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt") 
+                                        if os.path.exists(OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
+                                            logger('Date\t'+'RNCName\t'+str('\t'.join(list(temp1.keys()+headers))).replace('\n',''), OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                        logger(Date+'\t'+RNC_name+str('\t'.join(list(temp1.values()+lines))).replace('\n',''), OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt") 
                                     
                                     
     
@@ -221,9 +231,9 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                                             lines.append(str(child10.text).replace('\n',''))
                                                     temps=[]
                                     temp=merge_dicts(temp1,temp)
-                                    if os.path.exists(OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
-                                        logger('\t'.join(temp1.keys()+headers).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
-                                    logger('\t'.join(temp1.values()+lines).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    if os.path.exists(OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
+                                        logger('Data\t'+'RNC_name\t'+'\t'.join(temp1.keys()+headers).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    logger(Date+'\t'+RNC_name+'\t'+'\t'.join(temp1.values()+lines).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
                                     
                                     headers=[]
                                     lines=[]
@@ -241,7 +251,9 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                 #print '<<<<utran neighbors>>>>'
                                     
                                 for child7 in child6.findall('{utranNrm.xsd}UtranRelation'):
-                                    #print child7.tag
+                                   # print child7.attrib
+                                    relid=str(dict(child7.attrib).get('id'))
+                                    #print relid
                                     temp1={}
                                     #print 'child 7 ',child7.tag,child7.attrib
                                     temp1.update({'Id':str(info.get('id'))})                                     
@@ -249,8 +261,10 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                     #print 'child7: ',child7.tag
                                     #print 'child7 :',child7.tag,child7.text
                                     for child8 in child7.iter():
+                                        
                                         #print 'child8: ',child8.tag
                                         for child9  in child8:
+                                            
                                             temp.update({str(str(child9.tag).replace('{genericNrm.xsd}','')).replace('{EricssonSpecificAttributes.15.25.xsd}',''):str(child9.text).replace('\n','')})
                                             headers.append(str(str(child9.tag).replace('{genericNrm.xsd}','')).replace('{EricssonSpecificAttributes.15.25.xsd}',''))
                                             lines.append(str(child9.text).replace('\n',''))
@@ -262,9 +276,15 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                     headers.insert(0,str('Id'))
                                     lines.insert(0,str(temp1.get('id_2')))
                                     lines.insert(0,str(temp1.get('id')))
-                                    if os.path.exists(OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
-                                        logger('\t'.join(headers).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
-                                    logger('\t'.join(lines).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    headers.insert(0,'Rel_Id')
+                                    lines.insert(0,relid)    
+                                    headers.insert(0,'RNC_Name')
+                                    lines.insert(0,RNC_name)    
+                                    headers.insert(0,'Date')
+                                    lines.insert(0,Date) 
+                                    if os.path.exists(OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
+                                        logger('\t'.join(headers).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    logger('\t'.join(lines).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
                                     
                                     headers=[]
                                     lines=[]
@@ -273,6 +293,7 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                 #print '<<<<GSM neighbors>>>>'    
                             #This block parse the GSM relations
                                 for child7 in child6.findall('{geranNrm.xsd}GsmRelation'):
+                                    relid=str(dict(child7.attrib).get('id'))                                    
                                     temp1={}
                                     #print child7.tag
                                     #print 'child 7 ',child7.tag,child7.attrib
@@ -291,12 +312,19 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                             
                                     temp=merge_dicts(temp1,temp)
                                     headers.insert(0,'Id_2')
-                                    headers.insert(0,'Id')
+                                    headers.insert(0,'Cell_Name')
                                     lines.insert(0,str(temp1.get('id_2')))
-                                    lines.insert(0,str(temp1.get('id')))
-                                    if os.path.exists(OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
-                                        logger(str('\t'.join(headers)).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
-                                    logger(str('\t'.join(lines)).replace('\n',''),OutPut_dir+RNC_name+"_CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    lines.insert(0,cell_Id)
+                                    headers.insert(0,'Nbr_Id')
+                                    lines.insert(0,relid)                                                        
+                                    headers.insert(0,'RNC_Name')
+                                    lines.insert(0,RNC_name)    
+                                    headers.insert(0,'Date')
+                                    lines.insert(0,Date) 
+                                    
+                                    if os.path.exists(OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")==False:
+                                        logger(str('\t'.join(headers)).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    logger(str('\t'.join(lines)).replace('\n',''),OutPut_dir+"CellLevel_"+str(temp.get('vsDataType'))+".txt")
                                     
                                     headers=[]
                                     lines=[]
@@ -352,11 +380,13 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                 headers.insert(0,'id')
                                 lines.insert(0,RNC_name)
                                 lines.insert(0,info.get('id'))
+                                headers.insert(0,'Date')
+                                lines.insert(0,Date) 
                                 if 'vsDataIurLink' in headers:pass#Evalua if this value exist in the current list
                                 else:
-                                    if os.path.exists(OutPut_dir+RNC_name+"_RNCLevel_"+str(temp.get('vsDataType'))+".txt")==False:#Evaluate if exist the file to decide if is needed print the headers
-                                        logger('\t'.join(headers).replace('\n',''),OutPut_dir+RNC_name+"_RNCLevel_"+str(temp.get('vsDataType'))+".txt")
-                                    logger('\t'.join(lines).replace('\n',''),OutPut_dir+RNC_name+"_RNCLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    if os.path.exists(OutPut_dir+"RNCLevel_"+str(temp.get('vsDataType'))+".txt")==False:#Evaluate if exist the file to decide if is needed print the headers
+                                        logger('\t'.join(headers).replace('\n',''),OutPut_dir+"RNCLevel_"+str(temp.get('vsDataType'))+".txt")
+                                    logger('\t'.join(lines).replace('\n',''),OutPut_dir+"RNCLevel_"+str(temp.get('vsDataType'))+".txt")
                                 
                                 #logger('\t'.join(list(temp.keys())).replace('\n',''),OutPut_dir+RNC_name+"_RNCLevel_"+str(temp.get('vsDataType'))+".txt")
                                 #logger('\t'.join(list(temp.values())).replace('\n',''),OutPut_dir+RNC_name+"_RNCLevel_"+str(temp.get('vsDataType'))+".txt")
@@ -367,7 +397,9 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
     print "Parse Done....."                            
 def main_process(directory_in,directory_out):
     files=[]
+    print files
     files=list(get_files(directory_in,"*.xml"))
+    print files
     for file_ in files:
         print 'Processing:'+directory_in+file_
         XML_ParserEricsson_CM_RNC(file_,directory_out)
