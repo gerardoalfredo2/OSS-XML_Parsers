@@ -6,7 +6,7 @@ Created on Fri Aug 05 10:17:21 2016
 """
 import sys
 import timeit
-
+import os.path 
 
 def get_files(directory,exte):
  files_name=[]
@@ -73,8 +73,11 @@ def HWCMParser(XML_FILE,OutPut_dir):#
             headers.append(str(key))
             lines.append(str(temp.get(key)))
         #logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
-        logger('\t'.join(headers),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
-        logger('\t'.join(lines),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
+        headers.insert(1,"Element_name")
+        lines.insert(1,RNC_name)
+        if os.path.exists(OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')==False:
+            logger('\t'.join(headers),OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')
+        logger('\t'.join(lines),OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')
         for child1 in node.findall('MO'):
             MO.append(dict(child1.attrib).get('className'))
         MO = sorted(set(MO))
@@ -92,18 +95,20 @@ def HWCMParser(XML_FILE,OutPut_dir):#
                     headers.append( dict(child2.attrib).get('name'))
                     
                 #print headers
+                headers.insert(1,"Element_name")
                 file_output.update({str(dict(child1.attrib).get('className')):'\t'.join(headers)}) 
         #print file_output
         for n in MO:
             #logger ('*'+n+'*',OutPut_dir+"_"+n+'.txt')
-            logger (file_output.get(n),OutPut_dir+RNC_name+'_'+n+'.txt')
+            if os.path.exists(OutPut_dir+n+'.txt')==False:
+                logger (file_output.get(n),OutPut_dir+n+'.txt')
             for child1 in node.findall('MO'):
                if dict(child1.attrib).get('className')==n:
                    lines=[]                
                    for child2 in child1:
                         lines.append(str(child2.text))
-                   
-                   logger ('\t'.join(lines),OutPut_dir+RNC_name+'_'+n+'.txt')
+                   lines.insert(1,RNC_name)
+                   logger ('\t'.join(lines),OutPut_dir+n+'.txt')
         
         
          
