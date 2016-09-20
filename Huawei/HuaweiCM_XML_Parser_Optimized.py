@@ -104,7 +104,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
              #   print temp.get('name'),child1.text            
    
    
-HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/CMExport_DURRNC131_10.208.14.35_2016072505.xml','C:/Users/VervebaMX2/Documents/Projects/XML Parsing/XML Files/HuaweiCM/test/')
+HWCMParser('C:/Users/VervebaMX2/Documents/Projects/XML_Parsing/TEst/huawei/Lte/CMExport_LCUA8008_10.251.40.167_2016091305.xml','C:/Users/VervebaMX2/Documents/Projects/XML_Parsing/TEst/huawei/Lte/')
 
 #first_arg = sys.argv[1]
 #second_arg = sys.argv[2]
