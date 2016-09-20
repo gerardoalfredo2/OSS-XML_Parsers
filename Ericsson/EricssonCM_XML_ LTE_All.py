@@ -75,10 +75,10 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                            # print (str(child5.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','')).replace('{genericNrm.xsd}',''),child5.text
                             headers.append(str(str(child5.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','')).replace('{genericNrm.xsd}',''))
                             lines.append(str(child5.text))
-                        if os.path.exists(OutPut_dir+Area_name+'_'+Table_name+'.txt')!=True:
-                            logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                        if os.path.exists(OutPut_dir+Table_name+'.txt')!=True:
+                            logger('\t'.join(headers).replace('\n',''),OutPut_dir+Table_name+'.txt')
                         #print '\t'.join(headers).replace('\n','')
-                        logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                        logger('\t'.join(lines).replace('\n',''),OutPut_dir+Table_name+'.txt')
                         #print '\t'.join(lines).replace('\n','')
                         headers=[]
                         lines=[]
@@ -102,10 +102,10 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                                headers.append(str(child6.tag).replace('{genericNrm.xsd}',''))
                                lines.append(str(child6.text))
                                print str(child6.tag).replace('{genericNrm.xsd}',''),child6.text
-                        if os.path.exists(OutPut_dir+Area_name+'_EnodeBInfo.txt')!=True:
-                            logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_EnodeBInfo.txt')
+                        if os.path.exists(OutPut_dir+'EnodeBInfo.txt')!=True:
+                            logger('\t'.join(headers).replace('\n',''),OutPut_dir+'EnodeBInfo.txt')
                         #print '\t'.join(headers).replace('\n','')
-                        logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_EnodeBInfo.txt')
+                        logger('\t'.join(lines).replace('\n',''),OutPut_dir+'EnodeBInfo.txt')
                         #print '\t'.join(lines).replace('\n','')
                         headers=[]
                         lines=[]
@@ -148,9 +148,9 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                                             lines.append(str(child8.text))
                                             print '--------------->child8: ',str(child8.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child8.text
                                  print "Table_name:",Table_name
-                                 if os.path.exists(OutPut_dir+Area_name+'_'+Table_name+'.txt')!=True:
-                                     logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
-                                 logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                                 if os.path.exists(OutPut_dir+'_'+Table_name+'.txt')!=True:
+                                     logger('\t'.join(headers).replace('\n',''),OutPut_dir+Table_name+'.txt')
+                                 logger('\t'.join(lines).replace('\n',''),OutPut_dir+Table_name+'.txt')
                                  lines=[]
                                  headers=[]                                    
                    
@@ -202,9 +202,9 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                                                      lines.append(str(child9.text))
                                             # print '--------------->child9: ',str(child9.tag).replace('{EricssonSpecificAttributes.15.25.xsd}','').replace('{genericNrm.xsd}',''),child9.text
                                        #print "Table_name:",Table_name
-                                   if os.path.exists(OutPut_dir+Area_name+'_'+Table_name+'.txt')!=True:
-                                          logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
-                                   logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                                   if os.path.exists(OutPut_dir+Table_name+'.txt')!=True:
+                                          logger('\t'.join(headers).replace('\n',''),OutPut_dir+Table_name+'.txt')
+                                   logger('\t'.join(lines).replace('\n',''),OutPut_dir+Table_name+'.txt')
                                    lines=[]
                                    headers=[] 
                                    
@@ -269,9 +269,9 @@ def XML_ParserEricsson_CM_LTEFUll(XML_FILE, OutPut_dir):
                                    
                                    
                                    
-                                   if os.path.exists(OutPut_dir+Area_name+'_'+Table_name+'.txt')!=True:
-                                              logger('\t'.join(headers).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
-                                   logger('\t'.join(lines).replace('\n',''),OutPut_dir+Area_name+'_'+Table_name+'.txt')
+                                   if os.path.exists(OutPut_dir+Table_name+'.txt')!=True:
+                                              logger('\t'.join(headers).replace('\n',''),OutPut_dir+Table_name+'.txt')
+                                   logger('\t'.join(lines).replace('\n',''),OutPut_dir+Table_name+'.txt')
                                    lines=[]
                                    headers=[] 
                                    
