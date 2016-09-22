@@ -51,7 +51,8 @@ def XML_Parser_PMHUAWEi(XML_FILE, OutPut_dir):
             for po in g.findall("{http://latest/nmc-omc/cmNrm.doc#measCollec}granPeriod"):
                     Duration=str(po.get("duration"))
                     #print po.get('duration')
-                
+            #Assign the headers of the measurement values and the class of MO
+            #This values need to be reasigned usign a table with the Pm conunter names
             for po in g.findall("{http://latest/nmc-omc/cmNrm.doc#measCollec}measTypes"):
                     MeasTypes=str(po.text)                 
                     #print po.text                
@@ -89,7 +90,7 @@ def XML_Parser_PMHUAWEi(XML_FILE, OutPut_dir):
   
     return tempo
 
-XML_Parser_PMHUAWEi('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\XML Files\HuaweiPM\MBTS-HMEX0036\A20160725.2300-0500-0000-0500_MBTS-HMEX0036.xml','C:\Users\VervebaMX2\Documents\Projects\Python Scripts\CM&PM Parsers\HuaweiPM_XML_Parser\Logs\loggy2.txt')
+XML_Parser_PMHUAWEi('C:\Users\VervebaMX2\Documents\Projects\XML_Parsing\XML Files\HuaweiPM\LMEX0005\A20160725.0000-0500-0100-0500_LMEX0005.xml','C:\Users\VervebaMX2\Documents\Projects\XML_Parsing\XML Files\HuaweiPM\LMEX0005\loggy2.txt')
 
 
 
