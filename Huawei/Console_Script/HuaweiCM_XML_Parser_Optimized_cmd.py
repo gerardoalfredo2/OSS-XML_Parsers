@@ -60,7 +60,8 @@ def HWCMParser(XML_FILE,OutPut_dir):#
     start_time = timeit.default_timer()
     print "Start Time:",start_time
     clean(XML_FILE)# clean the file of one wrong character in the xml file
-    
+    tempora1=str(XML_FILE.split("/")[-1])
+    date_file=str(list(tempora1.split("_"))[-1]).replace(".xml","")
     import xml.etree.ElementTree as ET
     tree = ET.parse(XML_FILE)
     root = tree.getroot()
@@ -75,6 +76,8 @@ def HWCMParser(XML_FILE,OutPut_dir):#
         #logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
         headers.insert(1,"Element_name")
         lines.insert(1,RNC_name)
+        headers.insert(1,"Date")
+        lines.insert(1,date_file)
         if os.path.exists(OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')==False:
             logger('\t'.join(headers),OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')
         logger('\t'.join(lines),OutPut_dir+str(dict(node.attrib).get('className'))+'.txt')
@@ -96,6 +99,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
                     
                 #print headers
                 headers.insert(1,"Element_name")
+                headers.insert(1,"Date")
                 file_output.update({str(dict(child1.attrib).get('className')):'\t'.join(headers)}) 
         #print file_output
         for n in MO:
@@ -108,6 +112,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
                    for child2 in child1:
                         lines.append(str(child2.text))
                    lines.insert(1,RNC_name)
+                   lines.insert(1,date_file)
                    logger ('\t'.join(lines),OutPut_dir+n+'.txt')
         
         

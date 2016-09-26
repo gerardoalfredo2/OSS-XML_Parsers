@@ -50,6 +50,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
     file_output={}
     start_time = timeit.default_timer()
     print "Start Time:",start_time
+    Date_file=str(list(filename.split("_"))[-1]).replace(".xml","")
     clean(XML_FILE)# clean the file of one wrong character in the xml file
     
     import xml.etree.ElementTree as ET
@@ -63,6 +64,8 @@ def HWCMParser(XML_FILE,OutPut_dir):#
         for key in temp:
             headers.append(str(key))
             lines.append(str(temp.get(key)))
+        headers.insert(1,"Date")
+        lines.insert(1,Date_file)
         #logger('*'+dict(node.attrib).get('className')+ '*',OutPut_dir)
         logger('\t'.join(headers),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
         logger('\t'.join(lines),OutPut_dir+RNC_name+'_'+str(dict(node.attrib).get('className'))+'.txt')
@@ -87,7 +90,7 @@ def HWCMParser(XML_FILE,OutPut_dir):#
         #print file_output
         for n in MO:
             #logger ('*'+n+'*',OutPut_dir+"_"+n+'.txt')
-            logger (file_output.get(n),OutPut_dir+RNC_name+'_'+n+'.txt')
+            logger (Date_file+"\t"+file_output.get(n),OutPut_dir+RNC_name+'_'+n+'.txt')
             for child1 in node.findall('MO'):
                if dict(child1.attrib).get('className')==n:
                    lines=[]                
