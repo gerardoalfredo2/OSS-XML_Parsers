@@ -354,5 +354,4 @@ def XML_ParserEricsson_CM_RNC(XML_FILE, OutPut_dir):
                                 lines=[]
                                
     print "Done....."                            
-XML_ParserEricsson_CM_RNC('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\TEst\X20160826CM_RNC210.xml','C:\\Users\\VervebaMX2\\Documents\\Projects\\XML Parsing\\TEst\\Result\\')
-XML_ParserEricsson_CM_RNC('C:\Users\VervebaMX2\Documents\Projects\XML Parsing\TEst\X20160826CM_RNC220.xml','C:\\Users\\VervebaMX2\\Documents\\Projects\\XML Parsing\\TEst\\Result\\')
+XML_ParserEricsson_CM_RNC('C:\Users\VervebaMX2\Documents\Projects\XML_Parsing\TEst\Test_allEricssonXML3G\XML\X20160826CM_RNC210.xml','C:\\Users\\VervebaMX2\\Documents\\Projects\\XML_Parsing\\TEst\\Test_allEricssonXML3G\\Results\\')
